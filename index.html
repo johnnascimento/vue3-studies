@@ -16,9 +16,13 @@
             <section v-if="products.length" class="items">
                 <h4>{{title}}</h4>
 
-                <div class="product" v-for="product in products">
+                <div
+                    class="product"
+                    v-for="product in products"
+                    @:click="product.active = !product.active"
+                    v-bind:class="product.active ? 'selected' : ''">
                     <div class="photo">
-                        <img :src="product.photo">
+                        <img :src="product.photo" :alt="product.name" />
                     </div>
                     <div class="description">
                         <span class="name">{{product.name}}</span>
