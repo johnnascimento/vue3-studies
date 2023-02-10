@@ -64,3 +64,13 @@ var products = [
     }
 ];
 
+const selfServiceMachine = {
+    data() {
+        return {
+            title: 'My first node app',
+            products: products
+        }
+    }
+};
+
+Vue.createApp(selfServiceMachine).mount('#app');
