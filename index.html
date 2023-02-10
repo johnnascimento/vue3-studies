@@ -20,7 +20,9 @@
                     class="product"
                     v-for="product in products"
                     @:click="product.active = !product.active"
-                    v-bind:class="product.active ? 'selected' : ''">
+                    v-bind:class="{ selected : product.active }">
+                    <!-- The way bellow is equivalentto the above but more verbose -->
+                    <!-- v-bind:class="product.active: 'selected' : ''"> -->
                     <div class="photo">
                         <img :src="product.photo" :alt="product.name" />
                     </div>
