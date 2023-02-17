@@ -40,6 +40,16 @@ const toDoList = {
         removeItem: function(item, idx) {
             this.toDoItems.splice(idx, 1);
         }
+    },
+    updated() {
+      localStorage.setItem('toDoList', JSON.stringify(this.toDoItems));
+    },
+    mounted() {
+     const lsList = localStorage.getItem('toDoList');
+      
+     if (lsList.length) {
+        this.toDoItems = JSON.parse(lsList);
+      }
     }
 };
 
