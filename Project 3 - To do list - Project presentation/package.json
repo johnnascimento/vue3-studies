@@ -1,0 +1,29 @@
+{
+  "name": "vue3-studies",
+  "version": "1.0.0",
+  "description": "Application focused on development my vue js expertise",
+  "main": "scripts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnnascimento/vue3-studies.git"
+  },
+  "keywords": [
+    "vue",
+    "vue.js",
+    "vuex",
+    "js",
+    "javascript"
+  ],
+  "author": "John Lenon Nascimento da Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnnascimento/vue3-studies/issues"
+  },
+  "homepage": "https://github.com/johnnascimento/vue3-studies#readme",
+  "devDependencies": {
+    "node-static": "^0.7.11"
+  }
+}
