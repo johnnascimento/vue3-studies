@@ -27,7 +27,7 @@
                     </div>
                 </div>
 
-                <button class="clear" @click="clearAll()">Clear All</button>
+                <button class="clear" v-if="toDoItems.length" @click="clearAll()">Clear All</button>
 
                 <input type="text" placeholder="Add new to-do" v-model="newItem.title">
                 <button class="add" @click.stop="addItem()">Add</button>
