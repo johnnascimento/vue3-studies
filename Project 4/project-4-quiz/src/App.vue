@@ -6,15 +6,28 @@
       <template v-for="(answer, idx) in this.answers" v-bind:key="idx">
         <div class="form-control">
           <input type="radio"
+            :disabled="this.answerSubmitted"
             :value="answer"
             class="options"
             name="options"
-            v-model="this.chosen_answer">
+            v-model="this.chosenAnswer">
           <label v-html="answer"></label>
         </div>
       </template>
 
-      <button type="button" @click="this.submitAnswer()" class="send" id="send">Send</button>
+      <button type="button" class="send" id="send" v-if="!this.answerSubmitted" @click="this.submitAnswer()" :disabled="this.answerSubmitted">Send</button>
+
+      <section v-if="this.answerSubmitted" class="result">
+        <h4 v-if="this.chosenAnswer == this.correctAnswer">
+          &#9989; Congratulations, the answer "<span v-html="this.correctAnswer"></span>" is correct.
+        </h4>
+
+        <h4 v-else>
+          &#10060; I'm sorry, you picked the wrong answer. The correct is "<span v-html="this.correctAnswer"></span>"
+        </h4>
+
+        <button type="button" class="refreshQuiz" id="send" @click="this.getNextQuestion()" v-if="this.answerSubmitted">Next question</button>
+      </section>
     </template>
   </div>
 </template>
@@ -28,7 +41,8 @@ export default {
       question: undefined,
       incorrectAnswers: undefined,
       correctAnswer: undefined,
-      chosen_answer: undefined
+      chosenAnswer: undefined,
+      answerSubmitted: false
     }
   },
 
@@ -43,28 +57,35 @@ export default {
 
   methods: {
     submitAnswer() {
-      if (!this.chosen_answer) {
+      if (!this.chosenAnswer) {
         alert('Select an option!');
       } else {
-        if (this.chosen_answer == this.correctAnswer) {
-          alert('Props! This is right')
-        } else {
-          alert('NOPs! This is right')
+        if (this.chosenAnswer == this.correctAnswer) {
+          console.log('this.chosenAnswer == this.correctAnswer');
         }
+
+        this.answerSubmitted = true;
       }
+    },
+
+    getNextQuestion() {
+      this.ajaxUrl = 'https://opentdb.com/api.php?amount=1&category=11&difficulty=medium';
+      this.axios.get(this.ajaxUrl)
+        .then((response) => {
+            console.log(response.data.results[0])
+
+            this.question = response.data.results[0].question;
+            this.incorrectAnswers = response.data.results[0].incorrect_answers;
+            this.correctAnswer = response.data.results[0].correct_answer;
+            this.answerSubmitted = false;
+            this.chosenAnswer = undefined;
+        });
     }
   },
 
   created() {
-    this.ajaxUrl = 'https://opentdb.com/api.php?amount=1&category=11&difficulty=medium';
-    this.axios.get(this.ajaxUrl)
-      .then((response) => {
-          console.log(response.data.results[0])
-
-          this.question = response.data.results[0].question;
-          this.incorrectAnswers = response.data.results[0].incorrect_answers;
-          this.correctAnswer = response.data.results[0].correct_answer;
-      });
+    console.log('created this', this);
+    this.getNextQuestion();
   }
 }
 </script>
