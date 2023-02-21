@@ -28,6 +28,15 @@ export default {
     }
   },
 
+  computed: {
+    answers() {
+      let answers = this.incorrectAnswers;
+      answers.push(this.correctAnswer);
+
+      return answers;
+    }
+  },
+
   created() {
     this.axios.get('https://opentdb.com/api.php?amount=1&category=11&difficulty=easy&type=boolean').then((response) => {
         console.log(response.data.results[0])
