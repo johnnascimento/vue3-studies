@@ -1,5 +1,8 @@
 <template>
   <div v-bind:class="{hidden : !this.question && !this.incorrectAnswers && !this.correctAnswer}">
+
+    <ScoreBoard />
+
     <template v-if="this.question">
       <h1 v-html="this.question"></h1>
 
@@ -26,7 +29,7 @@
           &#10060; I'm sorry, you picked the wrong answer. The correct is "<span v-html="this.correctAnswer"></span>"
         </h4>
 
-        <button type="button" class="refreshQuiz" id="send" @click="this.getNextQuestion()" v-if="this.answerSubmitted">Next question</button>
+        <button type="button" class="refreshQuiz" id="send" @click="this.getNewQuestion()" v-if="this.answerSubmitted">Next question</button>
       </section>
     </template>
   </div>
@@ -34,7 +37,12 @@
 
 <script>
 
+import ScoreBoard from '@/components/ScoreBoard.vue';
+
 export default {
+  components: {
+    ScoreBoard: ScoreBoard
+  },
   name: 'App',
   data() {
     return {
@@ -68,7 +76,11 @@ export default {
       }
     },
 
-    getNextQuestion() {
+    getNewQuestion() {
+      this.answerSubmitted = false;
+      this.chosenAnswer = undefined;
+      this.question = undefined;
+
       this.ajaxUrl = 'https://opentdb.com/api.php?amount=1&category=11&difficulty=medium';
       this.axios.get(this.ajaxUrl)
         .then((response) => {
@@ -77,30 +89,28 @@ export default {
             this.question = response.data.results[0].question;
             this.incorrectAnswers = response.data.results[0].incorrect_answers;
             this.correctAnswer = response.data.results[0].correct_answer;
-            this.answerSubmitted = false;
-            this.chosenAnswer = undefined;
         });
     }
   },
 
   created() {
     console.log('created this', this);
-    this.getNextQuestion();
+    this.getNewQuestion();
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
 
-.hidden {
-  display: none;
-}
+  .hidden {
+    display: none;
+  }
 </style>
