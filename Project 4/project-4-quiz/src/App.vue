@@ -1,18 +1,21 @@
 <template>
   <div v-bind:class="{hidden : !this.question && !this.incorrectAnswers && !this.correctAnswer}">
-    <h1 v-html="this.question"></h1>
+    <template v-if="this.question">
+      <h1 v-html="this.question"></h1>
 
-    <div class="form-control">
-      <input type="radio" value="true" class="options" name="options" id="option-1">
-      <label for="option-1">True</label>
-    </div>
+      <template v-for="(answer, idx) in this.answers" v-bind:key="idx">
+        <div class="form-control">
+          <input type="radio"
+            :value="answer"
+            class="options"
+            name="options"
+            v-model="this.chosen_answer">
+          <label v-html="answer"></label>
+        </div>
+      </template>
 
-    <div class="form-control">
-      <input type="radio" value="false" class="options" name="options" id="option-2">
-      <label for="option-2">False</label>
-    </div>
-
-    <button type="button" class="send" id="send">Send</button>
+      <button type="button" @click="this.submitAnswer()" class="send" id="send">Send</button>
+    </template>
   </div>
 </template>
 
@@ -24,27 +27,44 @@ export default {
     return {
       question: undefined,
       incorrectAnswers: undefined,
-      correctAnswer: undefined
+      correctAnswer: undefined,
+      chosen_answer: undefined
     }
   },
 
   computed: {
     answers() {
-      let answers = this.incorrectAnswers;
-      answers.push(this.correctAnswer);
+      let answers = JSON.parse(JSON.stringify(this.incorrectAnswers));
+      answers.splice(Math.round(Math.random() * answers.length), 0, this.correctAnswer);
 
       return answers;
     }
   },
 
-  created() {
-    this.axios.get('https://opentdb.com/api.php?amount=1&category=11&difficulty=easy&type=boolean').then((response) => {
-        console.log(response.data.results[0])
+  methods: {
+    submitAnswer() {
+      if (!this.chosen_answer) {
+        alert('Select an option!');
+      } else {
+        if (this.chosen_answer == this.correctAnswer) {
+          alert('Props! This is right')
+        } else {
+          alert('NOPs! This is right')
+        }
+      }
+    }
+  },
 
-        this.question = response.data.results[0].question;
-        this.incorrectAnswers = response.data.results[0].incorrect_answers;
-        this.correctAnswer = response.data.results[0].correct_answer;
-    });
+  created() {
+    this.ajaxUrl = 'https://opentdb.com/api.php?amount=1&category=11&difficulty=medium';
+    this.axios.get(this.ajaxUrl)
+      .then((response) => {
+          console.log(response.data.results[0])
+
+          this.question = response.data.results[0].question;
+          this.incorrectAnswers = response.data.results[0].incorrect_answers;
+          this.correctAnswer = response.data.results[0].correct_answer;
+      });
   }
 }
 </script>
