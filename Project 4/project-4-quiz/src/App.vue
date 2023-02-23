@@ -1,7 +1,7 @@
 <template>
   <div v-bind:class="{hidden : !this.question && !this.incorrectAnswers && !this.correctAnswer}">
 
-    <ScoreBoard />
+    <ScoreBoard :winCount="this.winCount" :loseCount="this.loseCount" />
 
     <template v-if="this.question">
       <h1 v-html="this.question"></h1>
@@ -50,7 +50,9 @@ export default {
       incorrectAnswers: undefined,
       correctAnswer: undefined,
       chosenAnswer: undefined,
-      answerSubmitted: false
+      answerSubmitted: false,
+      winCount: 0,
+      loseCount: 0
     }
   },
 
@@ -68,11 +70,16 @@ export default {
       if (!this.chosenAnswer) {
         alert('Select an option!');
       } else {
+        this.answerSubmitted = true;
+
         if (this.chosenAnswer == this.correctAnswer) {
           console.log('this.chosenAnswer == this.correctAnswer');
+          this.winCount++;
+
+          return;
         }
 
-        this.answerSubmitted = true;
+        this.loseCount++;
       }
     },
 

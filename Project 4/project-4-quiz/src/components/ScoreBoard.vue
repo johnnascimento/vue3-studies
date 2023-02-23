@@ -2,9 +2,9 @@
     <div>
         <section class="score">
             Player 
-            <span>0</span>
+            <span>{{this.winCount}}</span>
             x
-            <span>0</span>
+            <span>{{this.loseCount}}</span>
             Computer
         </section>
     </div>
@@ -12,7 +12,10 @@
 
 <script>
     export default {
-
+        props: {
+            winCount: Number,
+            loseCount: Number
+        }
     }
 </script>
 
