@@ -7,15 +7,11 @@
 </template>
 
 <script>
-  import axios from 'axios';
-
   export default {
     created() {
-      axios
-        .get('https://fakestoreapi.com/products')
-        .then(response => {
-          console.log('products', response.data);
-        });
+        this.$store.dispatch('loadProducts');
+
+        console.log('state', this.$store.state.products);
     }
   }
 </script>

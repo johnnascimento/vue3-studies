@@ -1,23 +1,12 @@
 <template>
   <div class="home">
     <div class="products">
-
-      <div class="product">
-        <div class="product-image" style="background-image: url('https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg');"></div>
-        <h4>Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h4>
-        <p class="price">US$ 109.95</p>
-        <button>Add to bag</button>
-      </div>
-      <div class="product">
-        <div class="product-image" style="background-image: url('https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg');"></div>
-        <h4>Mens Casual Premium Slim Fit T-Shirts </h4>
-        <p class="price">US$ 22.30</p>
-        <button>Add to bag</button>
-      </div>
-      <div class="product">
-        <div class="product-image" style="background-image: url('https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg');"></div>
-        <h4>Mens Cotton Jacket</h4>
-        <p class="price">US$ 55.99</p>
+      <div class="product"
+        v-for="(product, idx) in this.products" :key="idx">
+        <div class="product-image" :style="{backgroundImage: 'url(' + product.image + ')'}" :title="product.title"></div>
+        <h4 class="product_title" v-html="product.title"></h4>
+        <div class="product_category" v-html="product.category"></div>
+        <p class="price">US$ {{(product.price).toFixed(2)}}</p>
         <button>Add to bag</button>
       </div>
     </div>
@@ -29,20 +18,38 @@
 export default {
   name: 'Home',
   data() {
-    return {
-      
+    return {}
+  },
+
+  computed: {
+    products() {
+      return this.$store.state.products;
     }
   },
 
-  methods: {
-   
-  }
+  methods: {}
 }
 </script>
 
 <style lang="scss">
 
   .home {
+    .product_category {
+      width: auto;
+      display: inline-block;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 8px;
+      margin: 0 auto;
+      background-color: black;
+      border-radius: 5px;
+      color: white;
+      text-align: center;
+    }
+
+    .product_title {
+      margin: 4px 0;
+    }
 
     .products {
       display: flex;
@@ -52,11 +59,12 @@ export default {
 
       .product {
         flex: 0 0 30%;
+        border: 1px solid lightgray;
         box-sizing: border-box;  
         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        padding: 16px;
+        padding: 32px 16px;
         margin: 8px;
-        height: 360px;
+        height: auto;
 
         @media only screen and (max-width: 769px) {
           flex: 0 0 40%;
@@ -69,7 +77,7 @@ export default {
         &.inBag {
           border: 1px solid #007bff;
         }
-        
+
         .product-image {
           margin: 20px auto;
           width: 160px;
@@ -79,7 +87,7 @@ export default {
           background-repeat: no-repeat;
         }
         h4 {
-          margin: 22px auto;
+          margin: 8px auto;
           font-size: 12px;
           max-width: 60%;
           font-weight: normal;
@@ -88,6 +96,7 @@ export default {
         p.price {
           font-size: 20px;
           font-weight: bold;
+          margin: 8px 0 4px;
         }
 
         button {
