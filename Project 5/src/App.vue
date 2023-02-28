@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> -
-    <router-link to="/basket">Shopping Bag (0)</router-link> 
+    <router-link to="/basket">Shopping Bag ({{this.$store.state.productsInBag.length}})</router-link> 
   </div>
   <router-view/>
 </template>
