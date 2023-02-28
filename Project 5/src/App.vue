@@ -10,6 +10,7 @@
   export default {
     created() {
         this.$store.dispatch('loadProducts');
+        this.$store.dispatch('loadBag');
 
         console.log('state', this.$store.state.products);
     }
