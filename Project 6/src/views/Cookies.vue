@@ -31,6 +31,19 @@ export default {
 
         getCookie() {
             this.$store.dispatch('retrieveCookies');
+        },
+
+        /**
+         * @description Function responsible for setting cookies
+         * @param {String} name Cookie name
+         * @param {String} value Cookie value
+         * @param {Number} [expires] Cookie expiration in days
+         * @param {String} [domain] Cookie domain
+         * @param {String} [path] Cookie path
+         * @param {Boolean} [secure] Cookie ssl flag
+         */
+        setCookies(name, value, expires, domain, path, secure) {
+            
         }
     },
 

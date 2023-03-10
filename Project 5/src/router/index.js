@@ -13,7 +13,11 @@ const routes = [
     name: 'Basket',
     component: Basket
   },
-  
+  {
+    path: '/ProductDetails/:id',
+    name: 'ProductDetails',
+    component: ProductDetails
+  }
 ]
 
 const router = createRouter({
